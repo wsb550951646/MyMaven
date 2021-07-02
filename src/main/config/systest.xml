@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<timeout>2000</timeout> default: 15000ms
+	node:   - c/a; c: test on commander; a: test on agent; empty means agent only.
+	param:
+		type - single: has only one value, number or string, only replace to the corresponding position in the command string without any conversion
+		type - list: values are number or string, only replace to the corresponding position in the command string without any conversion
+		type - sequence: values must be number, must has value with name "start" and "end";
+	value:
+		type - constant, number or string
+		type - variable, get by way command
+
+	id: 每个检查项必须唯一，系统以0开头:0xx;设备以1开头:1xx;服务以2开头:2xx;任务以3开头:3xx;
+
+	internal command:
+		LTASK: list the running tasks
+
+ -->
+<systest>
+    <version>1.0</version>
+    <description>ArcVideo Alert</description>
+    <tests>
+        <test>
+            <id>000</id>
+            <type>测试</type>
+            <name>测试-windows</name>
+            <description></description>
+            <disable>true</disable>
+            <node>c</node>
+            <command><![CDATA[dir d: | findstr "#{filter}.*" > systest.tmp | type systest.tmp | find /c "#{filter}"]]></command>
+            <condition>&gt;=0</condition>
+            <info>systest.tmp</info>
+            <params>
+                <param type="sequence">
+                    <name>filter</name>
+                    <values>
+                        <value>
+                            <name>start</name>
+                            <type>constant</type>
+                            <way>1</way>
+                        </value>
+                        <value>
+                            <name>end</name>
+                            <type>constant</type>
+                            <way>15</way>
+                        </value>
+                    </values>
+                </param>
+            </params>
+        </test>
+
+        <test>
+            <id>001</id>
+            <type>系统</type>
+            <name>系统环境</name>
+            <description></description>
+            <node>c/a</node>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/isys.sh #{CTIME} 2>/dev/null | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+            <params>
+                <param type="preset">
+                    <name>CTIME</name>
+                </param>
+            </params>
+        </test>
+
+        <test>
+            <id>011</id>
+            <type>系统</type>
+            <name>内存大小</name>
+            <description>检查内存情况</description>
+            <node>c/a</node>
+            <command><![CDATA[dmidecode -t memory | grep -oe "Size.*" | tee systest.tmp | awk '{f+=$2} END {print f}']]></command>
+            <condition>&gt;=8192</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>012</id>
+            <type>系统</type>
+            <name>内存读写速度</name>
+            <description>测试内存读写速度</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/ishm.sh #{threshold} | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+            <params>
+                <param type="single">
+                    <name>threshold</name>
+                    <values>
+                        <value>
+                            <type>constant</type>
+                            <way>1.0</way>
+                        </value>
+                    </values>
+                </param>
+            </params>
+        </test>
+        <test>
+            <id>013</id>
+            <type>系统</type>
+            <name>CPU状态</name>
+            <description>检查CPU使用情况</description>
+            <node>c/a</node>
+            <command><![CDATA[sar -P ALL 1 1 | grep Average | grep -v idle | awk '{ sumIdle += $8 } END {print ((sumIdle/NR) < 20) }' | tee systest.tmp]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>014</id>
+            <type>系统</type>
+            <name>GPU状态</name>
+            <description>检查GPU使用情况</description>
+            <node>c/a</node>
+            <command><![CDATA[if [[ $(nvidia-smi -h >/dev/null 2>&1;echo $?) -eq 0 ]]; then nvidia-smi -q -d UTILIZATION | grep -E "^GPU|Gpu\ *:|Memory\ *:|Encoder\ *:|Decoder\ *:" | tee systest.tmp | grep % | awk '{if($3>90) print;}' | grep -c ''; else echo "nvidia-smi not installed" > systest.tmp; echo 0; fi]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>015</id>
+            <type>系统</type>
+            <name>内存状态</name>
+            <description>检查内存使用情况</description>
+            <node>c/a</node>
+            <command><![CDATA[free -m | tee systest.tmp | grep Mem | awk '{if($4/$2 < 0.1) print $4/$2*100"%"}' | grep -c ""]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>016</id>
+            <type>系统</type>
+            <name>磁盘空间</name>
+            <description>检查磁盘空间占用情况</description>
+            <node>c/a</node>
+            <command><![CDATA[df -h | tee systest.tmp | grep -v Filesystem | awk '{if($5>90) print;}' | grep -c ""]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>017</id>
+            <type>系统</type>
+            <name>磁盘寿命</name>
+            <description>检查磁盘使用寿命情况</description>
+            <node>c/a</node>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/idlt.sh | tee systest.tmp | awk '{if($1=="Power_On_Hours") print $2;if($0~"WARNING") print 0}']]></command>
+            <condition><![CDATA[<=30000]]></condition>
+            <info>systest.tmp</info>
+        </test>
+
+        <test>
+            <id>019</id>
+            <type>系统</type>
+            <name>FAN转速</name>
+            <description>检测FAN转速</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/ifsp.sh | tee systest.tmp | awk '{if($2<100) print;}' | grep -c ""]]></command>
+            <condition>&gt;=0</condition>
+            <info>systest.tmp</info>
+        </test>
+
+        <test>
+            <id>101</id>
+            <type>设备</type>
+            <name>SDI-B</name>
+            <description>BlackMagic SDI采集卡</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/idev.sh Blackmagic | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>102</id>
+            <type>设备</type>
+            <name>SDI-K</name>
+            <description>科利通SDI采集卡</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/idev.sh Xilinx | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>103</id>
+            <type>设备</type>
+            <name>显卡-Y</name>
+            <description>研华卡</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/idev.sh Fujitsu | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>104</id>
+            <type>设备</type>
+            <name>显卡-G</name>
+            <description>GPU检查</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/idev.sh NVIDIA | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+
+
+        <test>
+            <id>201</id>
+            <type>服务</type>
+            <name>数据库</name>
+            <description>检测mongodb服务</description>
+            <node>c</node>
+            <command><![CDATA[if [ $(mongo cloud -u admin -p 'SA70$anp' --eval "printjson(db.accounts.findOne())" 2>&1  | grep -c _id) -gt 0 ]; then echo "OK: Database"; else echo "ERR: Database"; fi | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>202</id>
+            <type>服务</type>
+            <name>消息队列</name>
+            <description>检测rabbitmq服务</description>
+            <node>c</node>
+            <command><![CDATA[rabbitmqctl status | tee systest.tmp | grep pid | wc -l]]></command>
+            <condition>>=0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>203</id>
+            <type>服务</type>
+            <name>Cloud服务</name>
+            <description>检测Coodinatord服务状态</description>
+            <node>c</node>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/icloud.sh coordinatord | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+        <test>
+            <id>204</id>
+            <type>服务</type>
+            <name>Cloud服务</name>
+            <description>检测Txagent服务状态</description>
+            <command><![CDATA[/usr/local/arcvideo/cloud/systest/icloud.sh agent | tee systest.tmp | grep -c "ERR"]]></command>
+            <condition>==0</condition>
+            <info>systest.tmp</info>
+        </test>
+
+    </tests>
+</systest>
+
+

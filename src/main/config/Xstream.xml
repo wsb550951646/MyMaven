@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NDISources count="3">
+    <Source idx="0">
+        <Name>LOCALHOST.LOCALDOMAIN (luyou-test0)</Name>
+        <IP>172.17.20.101:5961</IP>
+    </Source>
+    <Source idx="1">
+        <Name>LOCALHOST.LOCALDOMAIN (luyou-test1)</Name>
+        <IP>172.17.20.101:5962</IP>
+    </Source>
+    <Source idx="2">
+        <Name>LOCALHOST.LOCALDOMAIN (test)</Name>
+        <IP>172.17.230.81:5961</IP>
+    </Source>
+</NDISources>

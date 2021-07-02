@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Company>
+
+    <Department >
+
+        <Department_Name>Cai WuBu</Department_Name>
+
+        <Manager>Zhang Bin</Manager>
+
+        <Employees>
+
+            <Employee >
+
+                <Employee_ID>12345</Employee_ID>
+
+                <Name>Zhang Bin</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>10101</Employee_ID>
+
+                <Name>Zhang QI</Name>
+
+                <Gender>female</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>10102</Employee_ID>
+
+                <Name>Zhang Xia</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>10201</Employee_ID>
+
+                <Name>ZhangChuang</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>10202</Employee_ID>
+
+                <Name>Zhang Jun</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+        </Employees>
+
+    </Department>
+
+    <Department >
+
+        <Department_Name>KaiFa Bu</Department_Name>
+
+        <Manager>Wang Bin</Manager>
+
+        <Employees>
+
+            <Employee >
+
+                <Employee_ID>22345</Employee_ID>
+
+                <Name>Wang Bin</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>20101</Employee_ID>
+
+                <Name>Wang QI</Name>
+
+                <Gender>female</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>20102</Employee_ID>
+
+                <Name>Wang Xia</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>20201</Employee_ID>
+
+                <Name>Wang Chuang</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+            <Employee >
+
+                <Employee_ID>20201</Employee_ID>
+
+                <Name>Wang Jun</Name>
+
+                <Gender>male</Gender>
+
+            </Employee>
+
+        </Employees>
+
+    </Department>
+
+</Company>

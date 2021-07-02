@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:annotation-config/>
+    <!-- 下面是配置扫描包的位置,包名为com.ework.upms.server,也就是说,我们的试图解析器应该放在com.ework.upms.server包下. -->
+    <context:component-scan base-package="sweng.controller"/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 注解请求映射
+            默认是ISO-88859-1，避免乱码这里设置为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json;charset=UTF-8" />
+            </bean>
+            <!-- 启动JSON格式的配置,自动将格式转换成JSON格式，不需要其他类 -->
+
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 2.静态资源默认servlet配置
+        (1)加入对静态资源的处理：js,gif,png
+        (2)允许使用"/"做整体映射
+     -->
+    <mvc:default-servlet-handler/>
+
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀,我们的视图文件应该放到/WEB-INF/views/目录下,这里我们需要在WEB-INF下面创建view文件夹 -->
+        <property name="prefix" value="/WEB-INF/views/" />
+        <!-- 设置后缀为.jsp -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+
+</beans>

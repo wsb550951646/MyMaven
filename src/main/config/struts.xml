@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <package name="first" extends="struts-default,json-default">
+
+    <action name="firstTest" class="sweng.action.firstAction" method="execute" >
+        <result>jsp/index.jsp</result>
+    </action>
+
+
+    <action name="updateSysTest" class="sweng.action.sysTestAction" method="test">
+        <result type="json"></result>
+    </action>
+
+    <action name="listSysTest" class="sweng.action.sysTestAction" method="list">
+        <result name="success">/jsp/sysTest.jsp</result>
+        <result name="error">/jsp/error.jsp</result>
+    </action>
+
+    <action name="listStorage">
+        <result name="success">/jsp/mainstorage.jsp</result>
+        <result name="error">/jsp/error.jsp</result>
+    </action>
+
+    <action name="setCommanderStorage" class="sweng.action.CommanderStorageAction" method="get">
+        <result name="success">/jsp/storage.jsp</result>
+        <result name="error">/jsp/error.jsp</result>
+    </action>
+
+    <action name="unmountCommanderStorage" class="sweng.action.CommanderStorageAction" method="unmount">
+        <result type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">actionErrors\[\d+\]</param>
+        </result>
+        <result name="input" type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">fieldErrors\..+$</param>
+        </result>
+    </action>
+
+    <action name="mountCommanderStorage" class="sweng.action.CommanderStorageAction" method="mount">
+        <result type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">actionErrors\[\d+\]</param>
+        </result>
+        <result name="input" type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">fieldErrors\..+$</param>
+        </result>
+    </action>
+
+    <action name="updateCommanderStorage" class="sweng.action.CommanderStorageAction" method="update">
+        <result type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">storage\.id,actionErrors\[\d+\]</param>
+        </result>
+        <result name="input" type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">storage\.id,fieldErrors\..+</param>
+        </result>
+    </action>
+
+    <action name="deleteCommanderStorage" class="sweng.action.CommanderStorageAction" method="delete">
+        <result type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">storage\.id,actionErrors\[\d+\]</param>
+        </result>
+        <result name="input" type="json">
+            <param name="ignoreHierarchy">false</param>
+            <param name="includeProperties">storage\.id,fieldErrors\..+</param>
+        </result>
+    </action>
+
+    <action name="addCommanderStorage" class="sweng.action.CommanderStorageAction" method="add">
+        <result type="json">
+            <param name="includeProperties">storage\.id, actionsErrors\[\d+\]</param>
+        </result>
+        <result name="input" type="json">
+            <param name="includeProperties">storage\.id, actionsErrors\[\d+\]</param>
+        </result>
+    </action>
+
+
+    </package>
+
+</struts>

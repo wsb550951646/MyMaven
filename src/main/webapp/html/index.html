@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>滑动的登录注册页面_dowebok</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/aicon/iconfont.css">
+</head>
+
+<body>
+    <div class="dowebok" id="dowebok">
+        <div class="container-left">
+            <img style="width: 100%;height: 100%" src="../png/2.png">
+        </div>
+
+        <div class="container-right">
+            <div class="login_head">
+                <div class="item">当虹离线转码平台</div>
+            </div>
+
+            <div class="login_content">
+                <form class="login_form">
+                    <table style="width:100%;">
+                        <tr>
+                            <td>
+                                <input style="display: block" class="iconfont icon-ren111" type="username" name="username_1" value="" placeholder="&#xe623账号"/>
+                            </td>
+                        </tr>
+                        <tr class="tr_space">
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="password" name="password_1" class="iconfont icon-suo" value="" placeholder="&#xe73f密码" /></td>
+                        </tr>
+                        <tr class="tr_space">
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class="isShow">
+                            <td><input type="verificationcode" placeholder="验证码" name="code_1" value="" style="width: 150px;float: left"/><img
+                                    id="imageCode" style="float: right;height: 33px"/></td>
+                        </tr>
+                        <tr class="tr_space isShow">
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" style="background:#aecff5" value="登录" class="input_submit" onClick="form_submit();"/></td>
+                        </tr>
+                        <tr>
+                            <td id="error" class="error" style="height: 30px; line-height: 30px"><%=error%></td>
+                        <tr>
+                    </table>
+                    <input type="hidden" id="errorCode" value="<%=errorImageCode%>"/>
+                    <input type="hidden" id="isLoginSecurity" value="<%=isLoginSecurity%>"/>
+                </form>
+            </div>
+
+
+            <form id="login" action="auth" method="post" style="display:none">
+                <input type="text" name="username" value="" />
+                <input type="password" name="password" value="" />
+                <%--		    <input type="text" name="code" value="" />--%>
+            </form>
+        </div>
+
+        <div class="index-logo">
+            <img src="../png/indexlogo.png">
+        </div>
+    </div>
+
+
+
+
+    <script src="../js/index.js"></script>
+
+
+
+
+
+
+
+
+
+
+<!-- 以下信息与演示无关，可不必理会 -->
+<p class="vad" style="display: none">
+    <a href="http://www.dowebok.com/" target="_blank">dowebok.com</a>
+    <a href="http://www.dowebok.com/2770.html" target="_blank">说 明</a>
+    <a href="http://www.dowebok.com/2770.html" target="_blank">下 载</a>
+</p>
+</body>
+
+</html>

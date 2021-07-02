@@ -1,0 +1,76 @@
+.systest_query_button{
+    padding: 0px 10px;
+    min-width: 60px;
+    height: 26px;
+    margin-left: 5px;
+    line-height: 25px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #179DCE;
+    cursor: pointer;
+    border: none;
+    /* letter-spacing: 3px; */
+}
+
+#systestPanal .systest_type_col{
+    width:80px;
+    text-align: center;
+}
+
+#systestPanal .systest_name_col{
+    width:320px;
+    text-align: center;
+}
+
+#systestPanal .systest_result_col{
+    width:40px;
+    text-align: center;
+}
+
+#systestPanal .systest_info_col{
+    width:100px;
+    text-align: center;
+}
+
+.check_button {
+    width: 80px;
+}
+
+.check_button:disabled {
+    background-color: #939393;
+}
+
+.icon_none {
+}
+
+.icon_wait {
+    width:100%;
+    min-width:16px;
+    height:16px;
+    background: transparent url('../png/gray.png') no-repeat;
+    background-position: center;
+}
+
+.icon_doing {
+    width:100%;
+    min-width:16px;
+    height:16px;
+    background: transparent url('../png/spinner.gif') no-repeat;
+    background-position: center;
+}
+
+.icon_ok {
+    width:100%;
+    min-width:16px;
+    height:16px;
+    background: transparent url('../png/green.png') no-repeat;
+    background-position: center;
+}
+
+.icon_failed {
+    width:100%;
+    min-width:16px;
+    height:16px;
+    background: transparent url('../png/red.png') no-repeat;
+    background-position: center;
+}
